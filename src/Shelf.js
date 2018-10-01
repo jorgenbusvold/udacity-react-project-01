@@ -5,10 +5,15 @@ import './App.css'
 class Shelf extends Component
 {
     render(){
+
+        const { books, category } = this.props;
+
         return (
                 <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <Books />
+                  <h2 className="bookshelf-title">{category}</h2>
+                  <div className="bookshelf-books">
+                    <Books books={books}/>
+                  </div>
                 </div>
                 );
     }
