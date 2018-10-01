@@ -3,8 +3,6 @@ import Book from './Book';
 
 class Books extends Component
 {
-    
-
     render(){
         
         const { books } = this.props;
