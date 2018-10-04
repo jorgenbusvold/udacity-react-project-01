@@ -108,11 +108,15 @@ class BooksApp extends React.Component {
     }))    
   }
 
-  onChangeCurrentCategory = (book) =>{
+  onChangeCurrentBookCategory = (book,e) =>{
+    var newCategory = e.target.value;
+    
+    const items = this.state.books;
+    
+    items[book.id-1].category = newCategory;
+
     this.setState((currentState) => ({
-        books : currentState.books.filter((b) => {
-          return b.id === book.id
-        }).map(b => b.category = book.category)
+        books : items
     }))
   }
 
@@ -127,7 +131,7 @@ class BooksApp extends React.Component {
           <ListBookShelfs 
               books={this.state.books} 
               onShowSearchPage={this.onShowSearchPage} 
-              onChangeCurrentCategory={this.onChangeCurrentCategory}
+              onChangeCurrentBookCategory={this.onChangeCurrentBookCategory}
           />
         )}
       </div>

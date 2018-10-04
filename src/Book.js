@@ -6,16 +6,20 @@ class Book extends Component
 {
 
     render(){
-        const {title, author, coverart} = this.props;
+        const {book} = this.props;
 
         return (
             <div className="book">
                 <div className="book-top">
-                    <BookCover coverart={coverart} />
-                    <BookShelfChangerMenu />
+                    <BookCover 
+                        coverart={book.coverart} />
+                    <BookShelfChangerMenu 
+                        book={book} 
+                        onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
+                    />
                 </div>
-                <div className="book-title">{title}</div>
-                <div className="book-authors">{author}</div>
+                <div className="book-title">{book.title}</div>
+                <div className="book-authors">{book.author}</div>
             </div>
         );
     }

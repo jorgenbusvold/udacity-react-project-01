@@ -6,9 +6,6 @@ class BookCover extends Component
     {
         const {coverart} = this.props;
 
-        console.log(coverart.width);
-        console.log(coverart.height);
-        
         return(
             <div 
                 className="book-cover" 

@@ -17,20 +17,19 @@ class ListBookShelfs extends Component
                     <div>
                         <Shelf  books={books.filter(b => b.category === 'Currently Reading')}
                                 category="Currently Reading"
-                                onChangeCurrentCategory={this.props.onChangeCurrentCategory}
+                                onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
                                 />
                         <Shelf  books={books.filter(b => b.category === 'Want to Read')} 
                                 category="Want to Read"
-                                onChangeCurrentCategory={this.props.onChangeCurrentCategory}
+                                onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
                                 />
                         <Shelf  books={books.filter(b => b.category === 'Read')} 
                                 category="Read"
-                                onChangeCurrentCategory={this.props.onChangeCurrentCategory}
+                                onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
                                 />
                     </div>
                 </div>
                 <div className="open-search">
-                    {/* <a onClick={() => this.props.onShowSearchPage()}>Add a book</a> */}
                     <Link 
                         to='/search'
                         onClick={() => this.props.onShowSearchPage()}

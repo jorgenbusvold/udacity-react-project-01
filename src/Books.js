@@ -10,9 +10,8 @@ class Books extends Component
         var bookListItems = books.map(b => (
             <li key={b.id}>
                 <Book 
-                    title={b.title} 
-                    author={b.author} 
-                    coverart={b.coverart}
+                    book = {b}
+                    onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
                 />
             </li>));
         

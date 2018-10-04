@@ -12,7 +12,10 @@ class Shelf extends Component
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">{category}</h2>
                   <div className="bookshelf-books">
-                    <Books books={books}/>
+                    <Books 
+                        books={books}
+                        onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
+                        />
                   </div>
                 </div>
                 );
