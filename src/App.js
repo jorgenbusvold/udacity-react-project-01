@@ -93,7 +93,8 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false, 
+    searchResult : []
   }
 
   onShowSearchPage = () => {
@@ -112,11 +113,26 @@ class BooksApp extends React.Component {
     var newCategory = e.target.value;
     
     const items = this.state.books;
-    
+
     items[book.id-1].category = newCategory;
 
     this.setState((currentState) => ({
         books : items
+    }))
+  }
+
+  onBookSearchCriteriaChanged = (e) => {
+    var currentSearchValue = e.target.value;
+
+    var currentSearchResult = [];
+
+    if(currentSearchValue !== "")
+    {
+      currentSearchResult= this.state.books.filter( (b) => b.title.startsWith(currentSearchValue));
+    }
+
+    this.setState((currentState) => ({
+      searchResult : currentSearchResult
     }))
   }
 
@@ -126,6 +142,8 @@ class BooksApp extends React.Component {
         {this.state.showSearchPage ? (
           <SearchBooks 
               onShowMainPage={this.onShowMainPage} 
+              searchResult={this.state.searchResult}
+              onBookSearchCriteriaChanged = {this.onBookSearchCriteriaChanged}
           />
         ) : (
           <ListBookShelfs 
