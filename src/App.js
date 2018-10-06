@@ -141,19 +141,35 @@ class BooksApp extends React.Component {
   onBookSearchCriteriaChanged = (e) => {
     var currentSearchValue = e.target.value;
 
-    var currentSearchResult = [];
-
     if(currentSearchValue !== "")
     {
-      currentSearchResult= this.state.books.filter( (b) => b.title.startsWith(currentSearchValue));
+      return this.state.searchResult;
+      //this.setState((currentstate) => this.state.searchResult.filter((b) => b.title.startsWith(currentSearchValue)));
     }
 
-    this.setState((currentState) => ({
-      searchResult : currentSearchResult
-    }))
+    // TODO: Search doesn't work - returns only 403 forbidden.
+    BooksAPI.search(currentSearchValue)
+      .then((searchResponse) => {
+      this.setState((currentstate) => ({ 
+        searchResult: searchResponse.map(b => 
+                      new BookDetails(
+                        b.id,
+                        b.authors.map(a => a+", ".slice(0,-2)),
+                        b.title,
+                        b.shelf, // Shelf - Category
+                        new CoverArt(
+                          130,
+                          190,
+                          b.imageLinks.thumbnail
+                        ))
+                    )}))
+      });
   }
 
   render() {
+    
+    console.log('Books API token: '+Math.random().toString(36).substr(-8));
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
