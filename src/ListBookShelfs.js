@@ -15,15 +15,15 @@ class ListBookShelfs extends Component
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <Shelf  books={books.filter(b => b.category === 'Currently Reading')}
+                        <Shelf  books={books.filter(b => b.category === 'currentlyReading')}
                                 category="Currently Reading"
                                 onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
                                 />
-                        <Shelf  books={books.filter(b => b.category === 'Want to Read')} 
+                        <Shelf  books={books.filter(b => b.category === 'wantToRead')} 
                                 category="Want to Read"
                                 onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
                                 />
-                        <Shelf  books={books.filter(b => b.category === 'Read')} 
+                        <Shelf  books={books.filter(b => b.category === 'read')} 
                                 category="Read"
                                 onChangeCurrentBookCategory={this.props.onChangeCurrentBookCategory}
                                 />
