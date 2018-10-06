@@ -99,7 +99,7 @@ class BooksApp extends React.Component {
         books: books.map(b => 
                       new BookDetails(
                         b.id,
-                        b.authors.map(a => a+", "),
+                        b.authors.map(a => a+", ".slice(0,-2)),
                         b.title,
                         b.shelf, // Shelf - Category
                         new CoverArt(
