@@ -6,6 +6,12 @@ class BookCover extends Component
     {
         const {coverart} = this.props;
 
+        if(typeof coverart === "undefined")
+        {
+            console.log(`No coverart exist for current book.`)
+            return null;
+        }
+
         return(
             <div 
                 className="book-cover" 

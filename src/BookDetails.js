@@ -5,6 +5,10 @@ export class BookDetails {
     this.title = title;
     this.category = category;
     this.coverart = coverart;
+
+    if(typeof this.author !== 'undefined'){
+      this.author.map(a => a+", ".slice(0,-2))
+    }
   }
 }
 

@@ -4,11 +4,15 @@ import Book from './Book';
 class SearchBooksResult extends Component {
 
     render(){
-        const { searchResult } = this.props;
+        const { searchResults, books } = this.props;
+
+        console.log(`searchResult: ${searchResults}`);
+
+        console.log(`books: ${books}`);
 
         var bookListItems = [];
 
-        bookListItems = searchResult.map(b => (
+        bookListItems = searchResults.map(b => (
         <li key={b.id}>
             <Book 
                 book = {b}

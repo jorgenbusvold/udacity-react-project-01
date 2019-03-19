@@ -6,7 +6,9 @@ class SearchBooks extends Component
 {
     render()
     {
-        const {searchResult} = this.props;
+        const {searchResults, books} = this.props;
+
+        console.log(`Books: ${books}`);
 
         return(
             <div className="search-books">
@@ -30,12 +32,16 @@ class SearchBooks extends Component
                 <input 
                     type="text"
                     placeholder="Search by title or author"
-                    onChange={(e) => this.props.onBookSearchCriteriaChanged(e)}
+                    // onChange={(e) => this.props.onBookSearchCriteriaChanged(e)}
+                    onChange={(event) => this.props.onBookSearchCriteriaChanged(event)}
                     />
               </div>
             </div>
             <SearchBooksResult 
-              searchResult={searchResult}/>      
+              searchResults={searchResults}
+              books = {books}
+              onChangeCurrentBookCategory = {this.props.onChangeCurrentBookCategory}
+              />      
           </div>
         );
     }
