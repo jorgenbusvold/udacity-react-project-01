@@ -2,10 +2,11 @@ import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchBooks from './SearchBooks';
+import {Route} from 'react-router-dom';
 import ListBookShelfs from './ListBookShelfs';
 import * as BooksAPI from './BooksAPI';
 import {BookDetails, CoverArt} from './BookDetails';
-import * as HelperMethods from './HelperMethods'
+
 
 class BooksApp extends React.Component {
 
@@ -90,7 +91,7 @@ class BooksApp extends React.Component {
       // },
     books : [],
     showSearchPage: false, 
-    searchResult : []
+    searchResponse : []
   }
 
   componentDidMount() {
@@ -113,12 +114,31 @@ class BooksApp extends React.Component {
                           b.imageLinks.thumbnail
                         ))
                     )}))
-      // .catch(
-      //   error => console.log('Error: '+error)
-      //   )
+    });
+  }
+
+  searchBooks = (searchString) => {
+    BooksAPI.search(searchString)
+    .then((books) => {
+      this.setState((currentstate) => ({ 
+        searchResponse: books.map(b => this.transformToBookDetails(b)
+                    )}))
     });
   }
   
+  transformToBookDetails = (book) => {
+    return new BookDetails(
+      book.id,
+      book.authors.map(a => a+", ".slice(0,-2)),
+      book.title,
+      book.shelf, // Shelf - Category
+      new CoverArt(
+        130,
+        190,
+        book.imageLinks.thumbnail
+      ))
+  }
+
   onShowSearchPage = () => {
     this.setState((currentState) => ({
       showSearchPage:true
@@ -144,37 +164,27 @@ class BooksApp extends React.Component {
             key : book.id
           })
         )
-      // .catch(
-      //   alert(`Failed to update category to ${newCategory} for book with id: ${book.id}, and title ${book.title}. Current category is still ${book.category}`)
-      // );
   }
 
   onBookSearchCriteriaChanged = (e) => {
     var currentSearchValue = e.target.value;
 
-    if(currentSearchValue !== "")
-    {
-      return this.state.searchResult;
-      //this.setState((currentstate) => this.state.searchResult.filter((b) => b.title.startsWith(currentSearchValue)));
-    }
+    console.log(`Search criteria: ${currentSearchValue}`)
 
-    // TODO: Search doesn't work - returns only 403 forbidden.
-    BooksAPI.search(currentSearchValue)
-      .then((searchResponse) => {
-      this.setState((currentstate) => ({ 
-        searchResult: searchResponse.map(b => 
-                      new BookDetails(
-                        b.id,
-                        b.authors.map(a => a+", ".slice(0,-2)),
-                        b.title,
-                        b.shelf, // Shelf - Category
-                        new CoverArt(
-                          130,
-                          190,
-                          b.imageLinks.thumbnail
-                        ))
-                    )}))
-      });
+    BooksAPI.search(currentSearchValue,30)
+      .then((books) => 
+      {
+        if(!!books){
+          if(books.length>0){
+            const results = books.map((book) => {
+              const existingBook = this.state.books.find((b) => b.id === book.id)
+              book.shelf = !!existingBook ? existingBook.shelf : `none`
+              return book
+            });
+            this.setState({ results })
+          }  
+        }
+      })
   }
 
   render() {
@@ -183,19 +193,20 @@ class BooksApp extends React.Component {
 
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <SearchBooks 
-              onShowMainPage={this.onShowMainPage} 
-              searchResult={this.state.searchResult}
-              onBookSearchCriteriaChanged = {this.onBookSearchCriteriaChanged}
+      <Route exact path="/" render={()=>(
+        <ListBookShelfs
+            books={this.state.books} 
+            onShowSearchPage={this.onShowSearchPage} 
+            onChangeCurrentBookCategory={this.onChangeCurrentBookCategory}
+        />
+      )}/>            
+      <Route exact path="/search" render={()=>(
+        <SearchBooks 
+            onShowMainPage={this.onShowMainPage} 
+            searchResponse={this.state.searchResponse}
+            onBookSearchCriteriaChanged = {this.onBookSearchCriteriaChanged}
           />
-        ) : (
-          <ListBookShelfs 
-              books={this.state.books} 
-              onShowSearchPage={this.onShowSearchPage} 
-              onChangeCurrentBookCategory={this.onChangeCurrentBookCategory}
-          />
-        )}
+      )}/>
       </div>
     )
   }
