@@ -2,7 +2,7 @@ import React from 'react'
 import SearchBooks from './SearchBooks';
 import ListBookShelfs from './ListBookShelfs';
 import {Route} from 'react-router-dom';
-import {BookDetails, CoverArt} from './BookDetails';
+import {BookDetails} from './BookDetails';
 import * as BooksAPI from './BooksAPI';
 import './App.css'
 
@@ -28,14 +28,10 @@ class BooksApp extends React.Component {
         books: books.map(b => 
                       new BookDetails(
                         b.id,
-                        b.authors.map(a => a+", ".slice(0,-2)),
+                        b.authors,
                         b.title,
                         b.shelf, // Shelf - Category
-                        new CoverArt(
-                          130,
-                          190,
-                          b.imageLinks.thumbnail
-                        ))
+                        b.imageLinks)
                     )}))
     });
   }
@@ -55,11 +51,8 @@ class BooksApp extends React.Component {
       book.authors,
       book.title,
       book.shelf, // Shelf - Category
-      new CoverArt(
-        130,
-        190,
-        book.imageLinks.thumbnail
-      ))
+      book.imageLinks
+      )
   }
 
   onShowSearchPage = () => {
