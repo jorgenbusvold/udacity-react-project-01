@@ -5,6 +5,7 @@ import SearchBooks from './SearchBooks';
 import ListBookShelfs from './ListBookShelfs';
 import * as BooksAPI from './BooksAPI';
 import {BookDetails, CoverArt} from './BookDetails';
+import * as HelperMethods from './HelperMethods'
 
 class BooksApp extends React.Component {
 
@@ -93,6 +94,10 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
+    this.getAllBooks();
+  }
+
+  getAllBooks = () => {
     BooksAPI.getAll()
     .then((books) => {
       this.setState((currentstate) => ({ 
@@ -111,9 +116,9 @@ class BooksApp extends React.Component {
       // .catch(
       //   error => console.log('Error: '+error)
       //   )
-      });
+    });
   }
-
+  
   onShowSearchPage = () => {
     this.setState((currentState) => ({
       showSearchPage:true
@@ -128,14 +133,20 @@ class BooksApp extends React.Component {
 
   onChangeCurrentBookCategory = (book,e) =>{
     var newCategory = e.target.value;
+
+    console.log("Book : "+book.id+" changed category to: "+newCategory);
     
-    const items = this.state.books;
+    book.category = newCategory;
 
-    items[book.id-1].category = newCategory;
-
-    this.setState((currentState) => ({
-        books : items
-    }))
+    BooksAPI.update(book,newCategory)
+      .then(
+          this.setState({
+            key : book.id
+          })
+        )
+      // .catch(
+      //   alert(`Failed to update category to ${newCategory} for book with id: ${book.id}, and title ${book.title}. Current category is still ${book.category}`)
+      // );
   }
 
   onBookSearchCriteriaChanged = (e) => {
