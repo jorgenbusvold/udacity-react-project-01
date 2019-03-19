@@ -64,7 +64,8 @@ class BooksApp extends React.Component {
   onShowMainPage = () => {
     this.setState((currentState) => ({
       showSearchPage:false
-    }))    
+    })) 
+    this.getAllBooks();   
   }
 
   onChangeCurrentBookCategory = (book,e) =>{

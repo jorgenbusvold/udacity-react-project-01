@@ -32,7 +32,6 @@ class SearchBooks extends Component
                 <input 
                     type="text"
                     placeholder="Search by title or author"
-                    // onChange={(e) => this.props.onBookSearchCriteriaChanged(e)}
                     onChange={(event) => this.props.onBookSearchCriteriaChanged(event)}
                     />
               </div>
