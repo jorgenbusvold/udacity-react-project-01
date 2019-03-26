@@ -6,6 +6,8 @@ export class BookDetails {
     this.title = title;
     this.category = category;
 
+    console.log(`Book with title: ${title} has cateogry: ${category}.`)
+    
     if(typeof author !== 'undefined'){
       this.author = author.map(a => a+", ".slice(0,-2))
     }
