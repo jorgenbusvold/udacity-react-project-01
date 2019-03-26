@@ -65,7 +65,7 @@ class BooksApp extends React.Component {
     this.setState((currentState) => ({
       showSearchPage:false
     })) 
-    this.getAllBooks();   
+    this.getAllBooks();    
   }
 
   onChangeCurrentBookCategory = (book,e) =>{
@@ -90,6 +90,7 @@ class BooksApp extends React.Component {
 
     if(currentSearchValue === '')
     {
+      this.setState({})
       return;
     }
 
@@ -100,11 +101,17 @@ class BooksApp extends React.Component {
           if(books.length>0){
             const searchResults = books.map((book) => {
               const existingBook = this.state.books.find((b) => b.id === book.id)
-              book.shelf = !!existingBook ? existingBook.shelf : `none`
-              //return book
+              //book.shelf = !!existingBook ? existingBook.shelf : `none`
+              book.shelf = !!existingBook ? existingBook.category : `none`
               return this.transformToBookDetails(book)
             });
+
             this.setState({ searchResults })
+          }
+          else
+          {
+            this.setState({searchResults:[]})
+            return;
           }  
         }
       })
