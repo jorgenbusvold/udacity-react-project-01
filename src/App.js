@@ -90,7 +90,7 @@ class BooksApp extends React.Component {
 
     if(currentSearchValue === '')
     {
-      this.setState({})
+      this.setState({searchResults:[]})
       return;
     }
 
@@ -101,11 +101,9 @@ class BooksApp extends React.Component {
           if(books.length>0){
             const searchResults = books.map((book) => {
               const existingBook = this.state.books.find((b) => b.id === book.id)
-              //book.shelf = !!existingBook ? existingBook.shelf : `none`
               book.shelf = !!existingBook ? existingBook.category : `none`
               return this.transformToBookDetails(book)
             });
-
             this.setState({ searchResults })
           }
           else
